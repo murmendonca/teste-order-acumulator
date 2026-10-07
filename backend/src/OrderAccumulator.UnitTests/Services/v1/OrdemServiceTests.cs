@@ -6,7 +6,7 @@ using OrderAccumulator.Application.Services.v1;
 using OrderAccumulator.Domain.Entities.v1;
 using OrderAccumulator.Domain.Enums;
 
-namespace OrderAccumulator.UnitTests;
+namespace OrderAccumulator.UnitTests.Services.v1;
 
 public class OrdemServiceTests
 {
