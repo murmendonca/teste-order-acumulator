@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderAccumulator.Application.DTOs.v1;
 using OrderAccumulator.Application.DTOs.v1.Ordens;
-using OrderAccumulator.Application.Interfaces.v1;
 using OrderAccumulator.Application.Interfaces.v1.Services;
 
 namespace OrderAccumulator.Api.Controllers.v1;
@@ -26,7 +25,7 @@ public class OrderAccumulatorController(IOrdemService ordemService) : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(Resultado.Erro(0, $"Ocorreu um erro ao processar a ordem: {ex.Message}"));
         }
     }
 }

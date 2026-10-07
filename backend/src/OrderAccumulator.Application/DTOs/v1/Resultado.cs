@@ -11,23 +11,17 @@ public class Resultado
     [JsonPropertyName("msg_erro")]
     public string? MensagemErro { get; init; }
     
-    public Resultado Ok(decimal exposicaoAtual)
+    public static Resultado Ok(decimal exposicaoAtual) => new()
     {
-        return new Resultado
-        {
-            Sucesso = true,
-            ExposicaoAtual = exposicaoAtual,
-            MensagemErro = null
-        };
-    }
-    
-    public Resultado Erro(decimal exposicaoAtual, string mensagem)
+        Sucesso = true,
+        ExposicaoAtual = exposicaoAtual,
+        MensagemErro = null
+    };
+
+    public static Resultado Erro(decimal exposicaoAtual, string mensagem) => new()
     {
-        return new Resultado
-        {
-            Sucesso = false,
-            ExposicaoAtual = exposicaoAtual,
-            MensagemErro = mensagem
-        };
-    }
+        Sucesso = false,
+        ExposicaoAtual = exposicaoAtual,
+        MensagemErro = mensagem
+    };
 }

@@ -1,7 +1,6 @@
 using FluentValidation;
 using OrderAccumulator.Application.DTOs.v1;
 using OrderAccumulator.Application.DTOs.v1.Ordens;
-using OrderAccumulator.Application.Interfaces.v1;
 using OrderAccumulator.Application.Interfaces.v1.Repositories;
 using OrderAccumulator.Application.Interfaces.v1.Services;
 using OrderAccumulator.Domain.Entities.v1;
@@ -32,20 +31,20 @@ public class OrdemService(
         
         if (CalculadoraExposicao.UltrapassaLimite(novaExposicao))
         {
-            return new Resultado().Erro(exposicaoAtual, "Limite de exposição por ativo ultrapassado.");
+            return Resultado.Erro(exposicaoAtual, "Limite de exposição por ativo ultrapassado.");
         }
         
         await ordemRepository.AddOrdemAsync(ordem);
 
-        return new Resultado().Ok(novaExposicao);
+        return Resultado.Ok(novaExposicao);
     }
     
     private async Task<Resultado> ValidarAsync(OrdemRequest request)
     {
         var validacao = await validator.ValidateAsync(request);
-        if (validacao.IsValid) return new Resultado().Ok(0);
+        if (validacao.IsValid) return Resultado.Ok(0);
         
         var erros = string.Join("; ", validacao.Errors.Select(e => e.ErrorMessage));
-        return new Resultado().Erro(0, erros);
+        return Resultado.Erro(0, erros);
     }
 }

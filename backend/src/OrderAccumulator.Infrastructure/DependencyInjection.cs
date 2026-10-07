@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using OrderAccumulator.Application.Interfaces.v1;
 using OrderAccumulator.Application.Interfaces.v1.Repositories;
 using OrderAccumulator.Infrastructure.Context;
 using OrderAccumulator.Infrastructure.Repositories.v1;
+
+namespace OrderAccumulator.Infrastructure;
 
 public static class DependencyInjection
 {
