@@ -10,6 +10,6 @@ export interface OrdemRequest {
 
 export interface Resultado {
   sucesso: boolean;
-  exposicaoAtual: number;
-  mensagem: string | null;
+  exposicao_atual: number;
+  msg_erro: string | null;
 }

@@ -17,17 +17,8 @@ public class OrdemService(
 {
     public async Task<Resultado> ProcessarOrdemAsync(OrdemRequest ordemRequest)
     {
-        var validacao = await validator.ValidateAsync(ordemRequest);
-        if (!validacao.IsValid)
-        {
-            var erros = string.Join("; ", validacao.Errors.Select(e => e.ErrorMessage));
-            return new Resultado
-            {
-                Sucesso = false,
-                ExposicaoAtual = 0,
-                Mensagem = erros
-            };
-        }
+        var validacao = await ValidarAsync(ordemRequest);
+        if (!validacao.Sucesso) return validacao;
         
         var ordem = new Ordem(
             Enum.Parse<Lado>(ordemRequest.Lado!),
@@ -41,21 +32,20 @@ public class OrdemService(
         
         if (CalculadoraExposicao.UltrapassaLimite(novaExposicao))
         {
-            return new Resultado
-            {
-                Sucesso = false,
-                ExposicaoAtual = exposicaoAtual,
-                Mensagem = "Limite de exposição por ativo ultrapassado."
-            };
+            return new Resultado().Erro(exposicaoAtual, "Limite de exposição por ativo ultrapassado.");
         }
         
         await ordemRepository.AddOrdemAsync(ordem);
+
+        return new Resultado().Ok(novaExposicao);
+    }
+    
+    private async Task<Resultado> ValidarAsync(OrdemRequest request)
+    {
+        var validacao = await validator.ValidateAsync(request);
+        if (validacao.IsValid) return new Resultado().Ok(0);
         
-        return new Resultado
-        {
-            Sucesso = true,
-            ExposicaoAtual = novaExposicao,
-            Mensagem = "Ordem processada com sucesso."
-        };
+        var erros = string.Join("; ", validacao.Errors.Select(e => e.ErrorMessage));
+        return new Resultado().Erro(0, erros);
     }
 }

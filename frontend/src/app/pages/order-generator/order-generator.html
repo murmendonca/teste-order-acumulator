@@ -62,9 +62,9 @@
   @if (resultado(); as r) {
     <div class="resultado" [class.ok]="r.sucesso" [class.falha]="!r.sucesso" role="status">
       <h2>{{ r.sucesso ? 'Ordem aceita' : 'Ordem rejeitada' }}</h2>
-      <p><strong>Exposição atual:</strong> {{ r.exposicaoAtual | currency: 'BRL' }}</p>
-      @if (r.mensagem) {
-        <p><strong>Mensagem:</strong> {{ r.mensagem }}</p>
+      <p><strong>Exposição atual:</strong> {{ r.exposicao_atual | currency: 'BRL' }}</p>
+      @if (r.msg_erro) {
+        <p><strong>Mensagem:</strong> {{ r.msg_erro }}</p>
       }
     </div>
   }
