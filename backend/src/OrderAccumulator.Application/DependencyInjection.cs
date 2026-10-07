@@ -11,7 +11,7 @@ public static class DependencyInjection
 {
     public static void AddApplication(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssemblyContaining<OrdemRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<OrdemRequestValidador>();
         services.AddScoped<IOrdemService, OrdemService>();
     }
 }

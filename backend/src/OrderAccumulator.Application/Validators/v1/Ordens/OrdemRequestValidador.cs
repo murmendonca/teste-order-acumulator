@@ -4,17 +4,17 @@ using OrderAccumulator.Domain.Enums;
 
 namespace OrderAccumulator.Application.Validators.v1.Ordens;
 
-public sealed class OrdemRequestValidator : AbstractValidator<OrdemRequest>
+public sealed class OrdemRequestValidador : AbstractValidator<OrdemRequest>
 {
-    public OrdemRequestValidator()
+    public OrdemRequestValidador()
     {
         RuleFor(x => x.Ativo)
             .NotEmpty().WithMessage("O ativo é obrigatório.")
-            .Must(BeAValidAtivo).WithMessage("O ativo informado não é válido.");
+            .Must(DeveSerAtivoValido).WithMessage("O ativo informado não é válido.");
 
         RuleFor(x => x.Lado)
             .NotEmpty().WithMessage("O lado da ordem é obrigatório.")
-            .Must(BeAValidLado).WithMessage("O lado da ordem informado não é válido.");
+            .Must(DeveSerLadoValido).WithMessage("O lado da ordem informado não é válido.");
 
         RuleFor(x => x.Quantidade)
             .GreaterThan(0).WithMessage("A quantidade deve ser maior que zero.")
@@ -26,6 +26,6 @@ public sealed class OrdemRequestValidator : AbstractValidator<OrdemRequest>
             .LessThan(1000).WithMessage("O preço deve ser menor que 1.000.");
     }
 
-    private bool BeAValidAtivo(string ativo) => Enum.GetNames<Ativo>().Contains(ativo);
-    private bool BeAValidLado(string lado) => Enum.GetNames<Lado>().Contains(lado);
+    private bool DeveSerAtivoValido(string ativo) => Enum.GetNames<Ativo>().Contains(ativo);
+    private bool DeveSerLadoValido(string lado) => Enum.GetNames<Lado>().Contains(lado);
 }

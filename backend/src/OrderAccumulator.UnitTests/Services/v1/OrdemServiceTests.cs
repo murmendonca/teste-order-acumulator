@@ -19,9 +19,9 @@ public class OrdemServiceTests
         _validatorMock.Setup(v => v.ValidateAsync(It.IsAny<OrdemRequest>(), default))
             .ReturnsAsync(new FluentValidation.Results.ValidationResult());
         
-        var service = CreateService();
+        var service = CriarService();
         
-        var request = CreateRequestCompra();
+        var request = CriarRequestCompra();
 
         var resultado = await service.ProcessarOrdemAsync(request);
         
@@ -34,9 +34,9 @@ public class OrdemServiceTests
         _validatorMock.Setup(v => v.ValidateAsync(It.IsAny<OrdemRequest>(), default))
             .ReturnsAsync(new FluentValidation.Results.ValidationResult());
         
-        var service = CreateService();
+        var service = CriarService();
         
-        var request = CreateRequestVenda();
+        var request = CriarRequestVenda();
 
         var resultado = await service.ProcessarOrdemAsync(request);
         
@@ -49,9 +49,9 @@ public class OrdemServiceTests
         _validatorMock.Setup(v => v.ValidateAsync(It.IsAny<OrdemRequest>(), default))
             .ReturnsAsync(new FluentValidation.Results.ValidationResult(new[] { new FluentValidation.Results.ValidationFailure("Property", "Error message") }));
         
-        var service = CreateService();
+        var service = CriarService();
         
-        var request = CreateRequestVenda();
+        var request = CriarRequestVenda();
 
         var resultado = await service.ProcessarOrdemAsync(request);
         
@@ -67,7 +67,7 @@ public class OrdemServiceTests
         _ordemRepositoryMock.Setup(r => r.GetExposicaoPorAtivoAsync(Ativo.PETR4))
             .ReturnsAsync(999_000m);
 
-        var service = CreateService();
+        var service = CriarService();
         
         var resultado = await service.ProcessarOrdemAsync(new OrdemRequest("PETR4", "C", 100, 10m));
 
@@ -85,7 +85,7 @@ public class OrdemServiceTests
         _ordemRepositoryMock.Setup(r => r.GetExposicaoPorAtivoAsync(Ativo.PETR4))
             .ReturnsAsync(999_000m);
 
-        var service = CreateService();
+        var service = CriarService();
         
         var resultado = await service.ProcessarOrdemAsync(new OrdemRequest("PETR4", "C", 100, 10.01m));
 
@@ -104,7 +104,7 @@ public class OrdemServiceTests
         _ordemRepositoryMock.Setup(r => r.GetExposicaoPorAtivoAsync(Ativo.PETR4))
             .ReturnsAsync(-999_000m);
 
-        var service = CreateService();
+        var service = CriarService();
         
         var resultado = await service.ProcessarOrdemAsync(new OrdemRequest("PETR4", "V", 100, 10.01m));
 
@@ -122,26 +122,26 @@ public class OrdemServiceTests
         _ordemRepositoryMock.Setup(r => r.GetExposicaoPorAtivoAsync(Ativo.PETR4))
             .ReturnsAsync(1_000_000m);
 
-        var service = CreateService();
+        var service = CriarService();
         
-        var resultado = await service.ProcessarOrdemAsync(new OrdemRequest("PETR4", "V", 100, 10m));
+        var resultado = await service.ProcessarOrdemAsync(CriarRequestVenda());
 
         Assert.True(resultado.Sucesso);
         Assert.Equal(999_000m, resultado.ExposicaoAtual);
         _ordemRepositoryMock.Verify(r => r.AddOrdemAsync(It.IsAny<Ordem>()), Times.Once);
     }
 
-    private OrdemService CreateService()
+    private OrdemService CriarService()
     {
         return new OrdemService(_validatorMock.Object, _ordemRepositoryMock.Object);
     }
 
-    private static OrdemRequest CreateRequestCompra()
+    private static OrdemRequest CriarRequestCompra()
     {
         return new OrdemRequest("PETR4", "C", 100, 10m);
     }
 
-    private static OrdemRequest CreateRequestVenda()
+    private static OrdemRequest CriarRequestVenda()
     {
         return new OrdemRequest("PETR4", "V", 100, 10m);
     }
