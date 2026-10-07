@@ -24,14 +24,19 @@ A solução tem duas aplicações:
 
 ## Como executar
 ### backend
+```
 cd backend/src
 dotnet restore
-dotnet run --project src/OrderAccumulator.Api --urls https://localhost:7201
+dotnet dev-certs https --trust
+dotnet run --project OrderAccumulator.Api --urls https://localhost:7201
+```
 
 
 ### frontend 
+```
 cd frontend
 npm install
 ng serve
+```
 
-Abrir url na porta: http://localhost:4200/dashboard
+Abrir url na porta: http://localhost:4200
