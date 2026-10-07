@@ -22,16 +22,10 @@ public sealed class OrdemRequestValidator : AbstractValidator<OrdemRequest>
 
         RuleFor(x => x.Preco)
             .GreaterThan(0).WithMessage("O preço deve ser maior que zero.")
+            .Must(p => p % 0.01m == 0).WithMessage("O preço deve ser múltiplo de 0,01.")
             .LessThan(1000).WithMessage("O preço deve ser menor que 1.000.");
     }
 
-    private bool BeAValidAtivo(string ativo)
-    {
-        return Enum.TryParse(typeof(Ativo), ativo, true, out _);
-    }
-
-    private bool BeAValidLado(string lado)
-    {
-        return Enum.TryParse(typeof(Lado), lado, true, out _);
-    }
+    private bool BeAValidAtivo(string ativo) => Enum.GetNames<Ativo>().Contains(ativo);
+    private bool BeAValidLado(string lado) => Enum.GetNames<Lado>().Contains(lado);
 }
