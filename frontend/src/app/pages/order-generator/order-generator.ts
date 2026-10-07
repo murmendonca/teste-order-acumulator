@@ -5,11 +5,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { OrdemService } from '../../services/ordem.service';
 import { inteiro, multiploCentavo } from '../../core/validators/ordem.validators';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CurrencyPipe, JsonPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-order-generator',
-  imports: [ReactiveFormsModule, CurrencyPipe, JsonPipe],
+  imports: [ReactiveFormsModule, CurrencyPipe],
   templateUrl: './order-generator.html',
   styleUrl: './order-generator.scss',
 })
